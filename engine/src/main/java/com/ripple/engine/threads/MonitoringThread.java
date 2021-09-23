@@ -14,7 +14,7 @@ import com.ripple.engine.constants.Constants;
 public class MonitoringThread extends TimerThread {
 
     public MonitoringThread(int cooldown) {
-        super(cooldown);
+        super(Constants.Defines.MonitoringThreadCooldown);
     }
 
     @Override

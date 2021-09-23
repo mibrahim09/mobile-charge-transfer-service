@@ -37,7 +37,8 @@ public class Constants {
     public static class Defines {
 
         public static final int SelectionThreadCooldown = 1,
-                HandlerThreadCooldown = 1;// In milliseconds
+                HandlerThreadCooldown = 1,
+                MonitoringThreadCooldown = 2000;// In milliseconds
 
         public static final String OK = "OK",
                 DEDUCTION_QUEUE = "DEDUCTION_QUEUE";

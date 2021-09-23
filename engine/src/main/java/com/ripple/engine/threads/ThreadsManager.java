@@ -31,14 +31,15 @@ public class ThreadsManager {
 
     public static void startThreads() {
         try {
+
+            new MonitoringThread().start();
+
             for (int i = 0; i < Constants.Statics.HANDLER_THREADPOOL_SIZE; i++) {
-                TimerThread thread = new HandlerThread();
-                thread.start();
+                new HandlerThread().start();
             }
 
             for (int i = 0; i < Constants.Statics.SELECTION_THREADPOOL_SIZE; i++) {
-                TimerThread thread = new SelectionThread();
-                thread.start();
+                new SelectionThread().start();
             }
 
             System.out.println("ALL THREADS UP AND RUNNING!");
