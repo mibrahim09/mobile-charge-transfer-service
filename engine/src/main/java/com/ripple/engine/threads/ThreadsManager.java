@@ -34,7 +34,7 @@ public class ThreadsManager {
 
             new MonitoringThread().start();
 
-            for (int i = 0; i < Constants.Statics.HANDLER_THREADPOOL_SIZE; i++) {
+            for (int i = 0; i < Constants.Statics.HTTPSENDER_THREADPOOL_SIZE; i++) {
                 new HandlerThread().start();
             }
 

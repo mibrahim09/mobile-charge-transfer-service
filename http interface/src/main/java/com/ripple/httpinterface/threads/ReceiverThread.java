@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
  *
  * @author Ripple
  */
-public class HandlerThread extends TimerThread {
+public class ReceiverThread extends TimerThread {
 
-    public HandlerThread() {
-        super(Constants.Defines.HandlerThreadCooldown);
+    public ReceiverThread() {
+        super(Constants.Statics.ReceiverThreadCooldown);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class HandlerThread extends TimerThread {
                         cmd.addBatch();
                         model = Kernel.dequeue();
                         count++;
-                        if (count >= Constants.Defines.MAX_PER_BATCH) {
+                        if (count >= Constants.Statics.MAX_PER_BATCH) {
                             break;
                         }
                     }

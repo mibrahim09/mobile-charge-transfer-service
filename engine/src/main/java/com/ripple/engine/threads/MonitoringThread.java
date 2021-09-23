@@ -6,6 +6,7 @@
 package com.ripple.engine.threads;
 
 import com.ripple.engine.constants.Constants;
+import com.ripple.engine.services.ConstantsService;
 
 /**
  *
@@ -13,12 +14,12 @@ import com.ripple.engine.constants.Constants;
  */
 public class MonitoringThread extends TimerThread {
 
-    public MonitoringThread(int cooldown) {
-        super(Constants.Defines.MonitoringThreadCooldown);
+    public MonitoringThread() {
+        super(Constants.Statics.MonitoringThreadCooldown);
     }
 
     @Override
     public void threadAction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ConstantsService.loadConstants();
     }
 }

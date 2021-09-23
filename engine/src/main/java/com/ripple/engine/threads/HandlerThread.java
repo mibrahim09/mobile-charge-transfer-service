@@ -23,7 +23,7 @@ import java.util.Map;
 public class HandlerThread extends TimerThread {
 
     public HandlerThread() {
-        super(Constants.Defines.HandlerThreadCooldown);
+        super(Constants.Statics.HandlerThreadCooldown);
     }
 
     @Override

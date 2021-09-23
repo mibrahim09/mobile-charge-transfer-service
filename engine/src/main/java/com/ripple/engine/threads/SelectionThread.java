@@ -21,7 +21,7 @@ import java.sql.Statement;
 public class SelectionThread extends TimerThread {
 
     public SelectionThread() {
-        super(Constants.Defines.SelectionThreadCooldown);
+        super(Constants.Statics.SelectionThreadCooldown);
     }
 
     @Override

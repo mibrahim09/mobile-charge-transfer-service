@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ripple.engine.services;
+package com.ripple.httpinterface.services;
 
-import com.ripple.engine.constants.Constants;
-import com.ripple.engine.db.DatabaseManager;
+import com.ripple.httpinterface.constants.Constants;
+import com.ripple.httpinterface.db.DatabaseManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -27,15 +27,9 @@ public class ConstantsService {
 
                 while (rs.next()) {
                     Constants.Statics.TerminateAllThreads = rs.getBoolean("shutdown");
-                    Constants.Statics.HttpServicelink = rs.getString("http_interface_url");
-                    Constants.Statics.SELECTION_THREADPOOL_SIZE = rs.getInt("selection_threadpool_size");
-                    Constants.Statics.SELECTION_THREADPOOL_SIZE = rs.getInt("selection_threadpool_size");
-                    Constants.Statics.HTTPSENDER_THREADPOOL_SIZE = rs.getInt("httpsender_threadpool_size");
-                    Constants.Statics.ChunkSize = rs.getInt("selection_chunksize");
-
-                    Constants.Statics.SelectionThreadCooldown = rs.getInt("selection_thread_cooldown");
-                    Constants.Statics.HandlerThreadCooldown = rs.getInt("handler_thread_cooldown");
-                    Constants.Statics.MonitoringThreadCooldown = rs.getInt("monitoring_thread_cooldown");
+                    Constants.Statics.ReceiverThreadCooldown = rs.getInt("receiver_thread_cooldown");
+                    Constants.Statics.MAX_PER_BATCH = rs.getInt("max_per_batch");
+                    Constants.Statics.RECEIVER_THREADPOOL_SIZE = rs.getInt("receiver_threadpool_size");
 
                 }
                 if (Constants.Statics.TerminateAllThreads) {

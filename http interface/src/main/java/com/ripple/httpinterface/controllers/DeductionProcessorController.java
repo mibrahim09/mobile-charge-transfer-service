@@ -7,10 +7,7 @@ package com.ripple.httpinterface.controllers;
 
 import com.ripple.httpinterface.constants.Constants;
 import com.ripple.httpinterface.constants.Kernel;
-import com.ripple.httpinterface.db.DatabaseManager;
 import com.ripple.httpinterface.models.DeductionModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
