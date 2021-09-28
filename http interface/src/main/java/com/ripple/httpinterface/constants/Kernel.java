@@ -5,7 +5,9 @@
  */
 package com.ripple.httpinterface.constants;
 
+import com.ripple.httpinterface.db.DatabaseManager;
 import com.ripple.httpinterface.models.DeductionModel;
+import com.ripple.httpinterface.services.ConstantsService;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -13,6 +15,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Ripple
  */
 public class Kernel {
+
+    public static ConstantsService constantsService;
+    public static DatabaseManager dbManager;
 
     private static final ConcurrentLinkedQueue<DeductionModel> deductionQueue
             = new ConcurrentLinkedQueue<DeductionModel>();

@@ -5,16 +5,14 @@
  */
 package com.ripple.engine.threads;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ripple.engine.constants.Constants;
 import com.ripple.engine.constants.Kernel;
 import com.ripple.engine.models.DeductionModel;
-import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -25,6 +23,7 @@ public class HandlerThread extends TimerThread {
     public HandlerThread() {
         super(Constants.Statics.HandlerThreadCooldown);
     }
+    private static final Logger logger = LogManager.getLogger(HandlerThread.class);
 
     @Override
     public void threadAction() {
@@ -37,28 +36,13 @@ public class HandlerThread extends TimerThread {
                     client = HttpClient.newHttpClient();
                 }
 
-                Map values = new HashMap<String, String>();
-                values.put("senderId", model.getSenderId());
-                values.put("receiverId", model.getReceiverId());
-                values.put("amount", model.getAmount());
-                values.put("requestId", model.getRequestId());
+                RestTemplate restTemplate = new RestTemplate();
+                HttpEntity<DeductionModel> request = new HttpEntity<>(model);
+                long timeStamp = System.currentTimeMillis();
+                restTemplate.postForObject(Constants.Statics.HttpServicelink, request, DeductionModel.class);
+                long elapsed = System.currentTimeMillis() - timeStamp;
+                logger.debug("HdlrThread-Sent " + elapsed);
 
-                ObjectMapper objectMapper = new ObjectMapper();
-                String requestBody = objectMapper
-                        .writeValueAsString(values);
-
-                HttpRequest request = HttpRequest.newBuilder()
-                        .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                        .header("Content-Type", "application/json")
-                        .uri(URI.create(Constants.Statics.HttpServicelink))
-                        .build();
-
-                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-                if (response.statusCode() != 200) {
-                    System.out.println("Response:" + response.statusCode() + ",msg:" + response.body());
-                }
-                
                 model = Kernel.dequeue();
             }
         } catch (Exception e) {

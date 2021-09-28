@@ -13,8 +13,11 @@ import java.sql.PreparedStatement;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,22 +32,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/deduct")
 public class DeductionSmsController {
 
+    @Autowired
+    private JdbcTemplate configurationJdbcTemplate;
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity deductFromCustomer(@RequestParam int channelId, @RequestBody DeductionModel deductionModel) {
         try {
             String SQL = "INSERT INTO requests(sender_id,receiver_id,transfer_amount,source_id,requested_timestamp) "
                     + "VALUES(?,?,?,?,?)";
 
-            try ( Connection conn = DatabaseManager.connect()) {
-                PreparedStatement cmd = conn.prepareStatement(SQL);
+            configurationJdbcTemplate.update(SQL,
+                    deductionModel.getSenderId(),
+                    deductionModel.getReceiverId(),
+                    deductionModel.getAmount(),
+                    channelId,
+                    LocalDateTime.now());
 
-                cmd.setString(1, deductionModel.getSenderId());
-                cmd.setString(2, deductionModel.getReceiverId());
-                cmd.setDouble(3, deductionModel.getAmount());
-                cmd.setInt(4, channelId);
-                cmd.setObject(5, LocalDateTime.now());
-                cmd.executeUpdate();
-            }
             return new ResponseEntity(Constants.Defines.OK,
                     HttpStatus.OK
             );

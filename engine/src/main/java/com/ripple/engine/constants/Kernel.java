@@ -5,7 +5,9 @@
  */
 package com.ripple.engine.constants;
 
+import com.ripple.engine.db.DatabaseManager;
 import com.ripple.engine.models.DeductionModel;
+import com.ripple.engine.services.ConstantsService;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -13,6 +15,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Ripple
  */
 public class Kernel {
+
+    public static ConstantsService constantsService;
+    public static DatabaseManager dbManager;
 
     private static final ConcurrentLinkedQueue<DeductionModel> deductionQueue
             = new ConcurrentLinkedQueue<DeductionModel>();
@@ -24,5 +29,9 @@ public class Kernel {
     public static DeductionModel dequeue() {
         return deductionQueue.poll();
     }
+//
+//    public static ConstantsService getConstantsService() {
+//        return constantsService;
+//    }
 
 }

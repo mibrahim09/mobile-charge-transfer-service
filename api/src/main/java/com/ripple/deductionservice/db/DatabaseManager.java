@@ -9,6 +9,8 @@ import com.ripple.deductionservice.constants.Constants;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,5 +26,14 @@ public class DatabaseManager {
                 Constants.Statics.DB_USER,
                 Constants.Statics.DB_PASS);
     }
+    
+    
+    @Autowired
+    private JdbcTemplate configurationJdbcTemplate;
+
+    public JdbcTemplate getConnection() {
+        return configurationJdbcTemplate;
+    }
+
 
 }

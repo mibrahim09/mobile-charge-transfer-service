@@ -8,6 +8,9 @@ package com.ripple.engine.threads;
 import com.ripple.engine.constants.Constants;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.task.TaskExecutor;
 
 /**
  *
@@ -29,11 +32,10 @@ public class ThreadsManager {
         }
     }
 
-    public static void startThreads() {
+    public void startThreads() {
         try {
-
             new MonitoringThread().start();
-
+            
             for (int i = 0; i < Constants.Statics.HTTPSENDER_THREADPOOL_SIZE; i++) {
                 new HandlerThread().start();
             }

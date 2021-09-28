@@ -10,6 +10,10 @@ import com.ripple.httpinterface.db.DatabaseManager;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 /**
  *
@@ -17,24 +21,24 @@ import java.sql.Statement;
  */
 public class ConstantsService {
 
-    public static void loadConstants() {
+    private static final Logger logger = LogManager.getLogger(ConstantsService.class);
+
+    @Autowired
+    private JdbcTemplate configurationJdbcTemplate;
+
+    public void loadConstants() {
         try {
-            try ( Connection conn = DatabaseManager.connect()) {
-                String SQL = "SELECT * FROM configuration";
+            String SQL = "SELECT * FROM configuration";
 
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(SQL);
+            configurationJdbcTemplate.query(SQL, (rs) -> {
+                Constants.Statics.TerminateAllThreads = rs.getBoolean("shutdown");
+                Constants.Statics.ReceiverThreadCooldown = rs.getInt("receiver_thread_cooldown");
+                Constants.Statics.MAX_PER_BATCH = rs.getInt("max_per_batch");
+                Constants.Statics.RECEIVER_THREADPOOL_SIZE = rs.getInt("receiver_threadpool_size");
 
-                while (rs.next()) {
-                    Constants.Statics.TerminateAllThreads = rs.getBoolean("shutdown");
-                    Constants.Statics.ReceiverThreadCooldown = rs.getInt("receiver_thread_cooldown");
-                    Constants.Statics.MAX_PER_BATCH = rs.getInt("max_per_batch");
-                    Constants.Statics.RECEIVER_THREADPOOL_SIZE = rs.getInt("receiver_threadpool_size");
-
-                }
-                if (Constants.Statics.TerminateAllThreads) {
-                    System.out.println("Shutdown.");
-                }
+            });
+            if (Constants.Statics.TerminateAllThreads) {
+                System.out.println("Shutdown.");
             }
         } catch (Exception e) {
         }

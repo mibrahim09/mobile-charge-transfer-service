@@ -6,7 +6,7 @@
 package com.ripple.engine.threads;
 
 import com.ripple.engine.constants.Constants;
-import com.ripple.engine.services.ConstantsService;
+import com.ripple.engine.constants.Kernel;
 
 /**
  *
@@ -14,12 +14,13 @@ import com.ripple.engine.services.ConstantsService;
  */
 public class MonitoringThread extends TimerThread {
 
+
     public MonitoringThread() {
         super(Constants.Statics.MonitoringThreadCooldown);
     }
 
     @Override
     public void threadAction() {
-        ConstantsService.loadConstants();
+        Kernel.constantsService.loadDbConstants();
     }
 }

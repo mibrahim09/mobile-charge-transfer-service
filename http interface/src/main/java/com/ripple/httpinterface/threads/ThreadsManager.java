@@ -29,13 +29,12 @@ public class ThreadsManager {
         }
     }
 
-    public static void startThreads() {
+    public void startThreads() {
         try {
             for (int i = 0; i < Constants.Statics.RECEIVER_THREADPOOL_SIZE; i++) {
                 TimerThread thread = new ReceiverThread();
                 thread.start();
             }
-
 
             System.out.println("ALL THREADS UP AND RUNNING!");
         } catch (Exception e) {

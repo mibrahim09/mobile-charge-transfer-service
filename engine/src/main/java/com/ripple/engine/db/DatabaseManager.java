@@ -9,6 +9,8 @@ import com.ripple.engine.constants.Constants;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,10 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DatabaseManager {
 
-    public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(Constants.Statics.DB_URL,
-                Constants.Statics.DB_USER,
-                Constants.Statics.DB_PASS);
+    @Autowired
+    private JdbcTemplate configurationJdbcTemplate;
+
+    public JdbcTemplate getConnection() {
+        return configurationJdbcTemplate;
     }
 
 }

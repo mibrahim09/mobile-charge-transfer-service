@@ -26,7 +26,7 @@ public class Constants {
                 SelectionThreadCooldown,
                 HandlerThreadCooldown,
                 MonitoringThreadCooldown;
-        
+
         public static boolean TerminateAllThreads;
 
         public static String HttpServicelink;
@@ -39,7 +39,10 @@ public class Constants {
     public static class Defines {
 
         public static final String OK = "OK",
-                DEDUCTION_QUEUE = "DEDUCTION_QUEUE";
+                DEDUCTION_QUEUE = "DEDUCTION_QUEUE",
+                DbUrl = "${dbconfig.url}",
+                DbUser = "${dbconfig.url}",
+                DbPassword = "${dbconfig.url}";
 
     }
 }
