@@ -9,8 +9,19 @@ package com.ripple.engine.enums;
  *
  * @author Ripple
  */
-public enum StatusCodes {
-    Success,
-    Failed,
-    Rejected
+public class Enums {
+
+    public enum RejectionStatusCodes {
+        None,
+        ServerDisabled,
+        InvalidChannelId,
+        Exception
+    }
+
+    public enum StatusCodes {
+        Success,
+        Failed,
+        Rejected
+    }
+
 }

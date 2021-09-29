@@ -8,6 +8,8 @@ package com.ripple.engine.threads;
 import com.ripple.engine.constants.Constants;
 import com.ripple.engine.constants.Kernel;
 import com.ripple.engine.models.DeductionModel;
+import com.ripple.engine.models.DeductionResponseModel;
+
 import java.net.http.HttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +41,9 @@ public class HandlerThread extends TimerThread {
                 RestTemplate restTemplate = new RestTemplate();
                 HttpEntity<DeductionModel> request = new HttpEntity<>(model);
                 long timeStamp = System.currentTimeMillis();
-                restTemplate.postForObject(Constants.Statics.HttpServicelink, request, DeductionModel.class);
+                DeductionResponseModel response = restTemplate.postForObject(Constants.Statics.HttpServicelink,
+                        request,
+                        DeductionResponseModel.class);
                 long elapsed = System.currentTimeMillis() - timeStamp;
                 logger.debug("HdlrThread-Sent " + elapsed);
 

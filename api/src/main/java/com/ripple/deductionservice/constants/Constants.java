@@ -16,6 +16,7 @@ public class Constants {
         public static String DB_URL = "jdbc:postgresql://localhost/mobile";
         public static String DB_USER = "postgres";
         public static String DB_PASS = "duke12345";
+        public static boolean ShutdownFlag = false;
     }
 
     public static class Defines {
@@ -25,7 +26,9 @@ public class Constants {
                 DEDUCTION_QUEUE = "DEDUCTION_QUEUE",
                 DBURL = "databaseConfig.url",
                 DBUSER = "databaseConfig.user",
-                DBPASS = "databaseConfig.pass";
+                DBPASS = "databaseConfig.pass",
+                StatusCode = "StatusCode",
+                RejectionCode = "RejectionCode";
 
     }
 }

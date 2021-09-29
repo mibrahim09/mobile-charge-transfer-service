@@ -34,4 +34,8 @@ public class Kernel {
 //        return constantsService;
 //    }
 
+    public static int getLeftInQueue() {
+        return deductionQueue.size();
+    }
+
 }

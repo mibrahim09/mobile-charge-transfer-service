@@ -5,15 +5,11 @@
  */
 package com.ripple.deductionservice.controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.ripple.deductionservice.constants.Constants;
-import com.ripple.deductionservice.db.DatabaseManager;
 import com.ripple.deductionservice.models.DeductionModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.ripple.deductionservice.enums.Enums;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -32,12 +31,32 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/deduct")
 public class DeductionSmsController {
 
+    private static final Logger logger = LogManager.getLogger(DeductionSmsController.class);
+
     @Autowired
     private JdbcTemplate configurationJdbcTemplate;
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity deductFromCustomer(@RequestParam int channelId, @RequestBody DeductionModel deductionModel) {
+        Map<String, Object> response = new HashMap<String, Object>();
+
         try {
+            if (Constants.Statics.ShutdownFlag) {
+                Enums.StatusCodes statusCode = Enums.StatusCodes.Rejected;
+                Enums.RejectionStatusCodes rejectionCode = Enums.RejectionStatusCodes.ServerDisabled;
+
+                logger.info("DeductCtrl,Flag:" + statusCode
+                        + ",RejectionCode:" + rejectionCode
+                        + ",Sender" + deductionModel.getSenderId()
+                        + ",Recv" + deductionModel.getReceiverId()
+                        + ",Amnt:" + deductionModel.getAmount()
+                        + ",Channel:" + channelId);
+
+                response.put(Constants.Defines.StatusCode, statusCode);
+                response.put(Constants.Defines.RejectionCode, rejectionCode);
+                return ResponseEntity.badRequest().body(response);
+            }
+
             String SQL = "INSERT INTO requests(sender_id,receiver_id,transfer_amount,source_id,requested_timestamp) "
                     + "VALUES(?,?,?,?,?)";
 
@@ -48,15 +67,30 @@ public class DeductionSmsController {
                     channelId,
                     LocalDateTime.now());
 
-            return new ResponseEntity(Constants.Defines.OK,
-                    HttpStatus.OK
-            );
+            Enums.StatusCodes statusCode = Enums.StatusCodes.Success;
+            logger.info("DeductCtrl,Flag:" + statusCode
+                    + ",Sender" + deductionModel.getSenderId()
+                    + ",Recv" + deductionModel.getReceiverId()
+                    + ",Amnt:" + deductionModel.getAmount()
+                    + ",Channel:" + channelId);
+
+            response.put(Constants.Defines.StatusCode, statusCode);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            // TODO: LOG EXCEPTION
-            System.out.print(e);
-            return new ResponseEntity(Constants.Defines.EXC,
-                    HttpStatus.BAD_REQUEST
-            );
+            Enums.StatusCodes statusCode = Enums.StatusCodes.Failed;
+            Enums.RejectionStatusCodes rejectionCode = Enums.RejectionStatusCodes.Exception;
+
+            logger.info("DeductCtrl,Flag:" + statusCode
+                    + ",RejectionCode:" + rejectionCode
+                    + ",Sender" + deductionModel.getSenderId()
+                    + ",Recv" + deductionModel.getReceiverId()
+                    + ",Amnt:" + deductionModel.getAmount()
+                    + ",Channel:" + channelId);
+            logger.error("DeductCtrl," + e);
+
+            response.put(Constants.Defines.StatusCode, statusCode);
+            response.put(Constants.Defines.RejectionCode, rejectionCode);
+            return ResponseEntity.badRequest().body(response);
         }
     }
 }

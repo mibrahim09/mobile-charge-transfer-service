@@ -38,6 +38,7 @@ public class SelectionThread extends TimerThread {
             JdbcTemplate jdbcTemp = Kernel.dbManager.getConnection();
             long start = System.currentTimeMillis();
             int enqueued = 1;
+            
             jdbcTemp.query(SQL, new Object[]{LocalDateTime.now()}, (rs) -> {
                 DeductionModel model = new DeductionModel(rs.getString("sender_id"),
                         rs.getString("receiver_id"),
@@ -48,8 +49,9 @@ public class SelectionThread extends TimerThread {
             });
 
             long end = System.currentTimeMillis() - start;
-            if (enqueued > 0) {
-                logger.info("SelectThr - Enqueue time=" + end + ",Enqueued=" + enqueued
+            int left = Kernel.getLeftInQueue();
+            if (left > 0) {
+                logger.info("SelectThr - Enqueue time=" + end + ",Enqueued=" + left
                 );
             }
         } catch (Exception ex) {
