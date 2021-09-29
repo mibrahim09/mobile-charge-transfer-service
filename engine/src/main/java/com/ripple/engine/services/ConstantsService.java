@@ -43,7 +43,7 @@ public class ConstantsService {
                 Constants.Statics.SelectionThreadCooldown = rs.getInt("selection_thread_cooldown");
                 Constants.Statics.HandlerThreadCooldown = rs.getInt("handler_thread_cooldown");
                 Constants.Statics.MonitoringThreadCooldown = rs.getInt("monitoring_thread_cooldown");
-                logger.info("Cfg reload.");
+//                logger.info("Cfg reload.");
             });
 
             if (Constants.Statics.TerminateAllThreads) {

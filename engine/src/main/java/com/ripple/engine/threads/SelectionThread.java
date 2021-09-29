@@ -7,11 +7,7 @@ package com.ripple.engine.threads;
 
 import com.ripple.engine.constants.Constants;
 import com.ripple.engine.constants.Kernel;
-import com.ripple.engine.db.DatabaseManager;
 import com.ripple.engine.models.DeductionModel;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +39,7 @@ public class SelectionThread extends TimerThread {
                 DeductionModel model = new DeductionModel(rs.getString("sender_id"),
                         rs.getString("receiver_id"),
                         rs.getDouble("transfer_amount"),
-                        rs.getString("request_id"));
+                        rs.getLong("request_id"));
 
                 Kernel.addToQueue(model);
             });

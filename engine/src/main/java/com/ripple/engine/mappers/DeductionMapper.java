@@ -21,7 +21,7 @@ public class DeductionMapper implements RowMapper<DeductionModel> {
         model.setSenderId(rs.getString("sender_id"));
         model.setReceiverId(rs.getString("receiver_id"));
         model.setAmount(rs.getDouble("transfer_amount"));
-        model.setRequestId(rs.getString("request_id"));
+        model.setRequestId(rs.getLong("request_id"));
         return model;
     }
 }

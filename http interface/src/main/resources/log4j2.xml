@@ -68,7 +68,7 @@
             <AppenderRef ref="Console" />
         </Logger>
          -->
-        <Logger name="com.ripple.engine" additivity="false">
+        <Logger name="com.ripple.httpinterface" additivity="false">
             <AppenderRef ref="debugLog" />
             <AppenderRef ref="infoLog"  />
             <AppenderRef ref="errorLog" />

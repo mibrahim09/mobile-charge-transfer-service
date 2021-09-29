@@ -22,6 +22,7 @@ public class Constants {
         public static String DB_USER = "postgres";
         public static String DB_PASS = "duke12345";
 
+        public static double Fees = 2.0;
     }
 
     public static class Defines {

@@ -6,8 +6,13 @@
 package com.ripple.httpinterface.controllers;
 
 import com.ripple.httpinterface.constants.Constants;
-import com.ripple.httpinterface.constants.Kernel;
-import com.ripple.httpinterface.models.DeductionModel;  
+import com.ripple.httpinterface.enums.Enums;
+import com.ripple.httpinterface.models.DeductionModel;
+import com.ripple.httpinterface.models.TransferResponseModel;
+import com.ripple.httpinterface.services.TransferService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,16 +28,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/validate")
 public class DeductionProcessorController {
     
+    private static final Logger logger = LogManager.getLogger(DeductionProcessorController.class);
+    @Autowired
+    private TransferService transferService;
+    
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity deductFromCustomer(@RequestBody DeductionModel deductionModel) {
         try {
-            Kernel.addToQueue(deductionModel);
-            return new ResponseEntity(Constants.Defines.OK,
-                    HttpStatus.OK
-            );
+            
+            long start = System.currentTimeMillis();
+            TransferResponseModel response
+                    = transferService.transferFunds(Long.parseLong(deductionModel.getSenderId()),
+                            Long.parseLong(deductionModel.getReceiverId()),
+                            deductionModel.getRequestId(),
+                            deductionModel.getAmount());
+            long total = System.currentTimeMillis()  - start;
+            logger.info(response.toString() + ",elapsed:" + total);
+            
+            if (response.getStatusCode() == Enums.StatusCodes.Success) {
+                return ResponseEntity.ok(response);
+            }
+            return ResponseEntity
+                    .badRequest()
+                    .body(response);
+            
         } catch (Exception e) {
             // TODO: LOG EXCEPTION
-            System.out.print(e);
+            System.out.println(e);
             return new ResponseEntity(Constants.Defines.EXC,
                     HttpStatus.BAD_REQUEST
             );

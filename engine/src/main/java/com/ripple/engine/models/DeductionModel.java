@@ -23,5 +23,5 @@ public class DeductionModel implements Serializable {
     private String senderId;
     private String receiverId;
     private double amount;
-    private String requestId;
+    private Long requestId;
 }
