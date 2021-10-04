@@ -1,7 +1,13 @@
 # Mobile Charging service
 
+# Tools
+Java 8  
+Springboot  
+POSTGRES database
+
+
 # Objective:
-To create a high performance engine that can handle a large number of requests with good efficiency and certain rate. Also the
+To create a high performance engine in java springboot that can handle a large number of requests with good efficiency and certain rate. Also the
 engine should maintain its availability 24/7
 # System Overview:
 Our engine will fetch requests from database table, send the request to HTTP interface then receive the response and archive
