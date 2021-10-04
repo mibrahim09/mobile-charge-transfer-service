@@ -27,17 +27,9 @@ public class EngineApplication implements CommandLineRunner {
     DatabaseManager dbMgr;
 
     public void run(String... args) throws Exception {
-//        ConstantsService service = Kernel.getConstantsService();
-
-//        ctx.getAutowireCapableBeanFactory().autowireBeanProperties(
-//                service,
-//                AutowireCapableBeanFactory.AUTOWIRE_AUTODETECT, true);
         Kernel.constantsService = constantsSVR;
         Kernel.dbManager = dbMgr;
-        
         constantsSVR.loadDbConstants();
-        constantsSVR.loadPropertiesConfig();
-
         threadsMgr.startThreads();
     }
 }

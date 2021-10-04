@@ -28,19 +28,22 @@ public class ConstantsService {
 
     public void loadConstants() {
         try {
-            String SQL = "SELECT * FROM configuration";
 
-            configurationJdbcTemplate.query(SQL, (rs) -> {
+            configurationJdbcTemplate.query("SELECT * FROM configuration", (rs) -> {
                 Constants.Statics.TerminateAllThreads = rs.getBoolean("shutdown");
-                Constants.Statics.ReceiverThreadCooldown = rs.getInt("receiver_thread_cooldown");
-                Constants.Statics.MAX_PER_BATCH = rs.getInt("max_per_batch");
-                Constants.Statics.RECEIVER_THREADPOOL_SIZE = rs.getInt("receiver_threadpool_size");
+                Constants.Statics.MonitoringThreadCooldown = rs.getInt("monitoring_thread_cooldown");
 
             });
+
+            configurationJdbcTemplate.query("SELECT fees_percent FROM fees_manager", (rs) -> {
+                Constants.Statics.FEES_PERCENT = rs.getFloat("fees_percent");
+            });
+
             if (Constants.Statics.TerminateAllThreads) {
-                System.out.println("Shutdown.");
+                logger.debug("Shutdown flag triggered.");
             }
         } catch (Exception e) {
+            logger.error(e);
         }
     }
 }

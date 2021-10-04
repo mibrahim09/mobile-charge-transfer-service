@@ -5,9 +5,10 @@
  */
 package com.ripple.httpinterface.threads;
 
-import com.ripple.httpinterface.constants.Constants;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class ThreadsManager {
 
+    private static final Logger logger = LogManager.getLogger(ThreadsManager.class);
     private static ConcurrentMap<Long, Thread> threadsBag = new ConcurrentHashMap<Long, Thread>();
 
     public static void onAddThread(Thread thread) {
@@ -31,14 +33,10 @@ public class ThreadsManager {
 
     public void startThreads() {
         try {
-//            for (int i = 0; i < Constants.Statics.RECEIVER_THREADPOOL_SIZE; i++) {
-//                TimerThread thread = new ReceiverThread();
-//                thread.start();
-//            }
-
-            System.out.println("ALL THREADS UP AND RUNNING!");
+            new MonitoringThread().start();
+            logger.debug("Threads are running.");
         } catch (Exception e) {
-            System.out.println(e);
+            logger.error(e);
         }
     }
 

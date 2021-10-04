@@ -26,7 +26,5 @@ public class DeductionModel implements Serializable {
     private String receiverId;
     @NotNull
     private double amount;
-    @NotNull
-    private double fees;
 
 }

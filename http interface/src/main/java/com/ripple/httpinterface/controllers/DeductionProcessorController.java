@@ -27,34 +27,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/validate")
 public class DeductionProcessorController {
-    
+
     private static final Logger logger = LogManager.getLogger(DeductionProcessorController.class);
     @Autowired
     private TransferService transferService;
-    
+
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity deductFromCustomer(@RequestBody DeductionModel deductionModel) {
         try {
-            
+
             long start = System.currentTimeMillis();
-            TransferResponseModel response
-                    = transferService.transferFunds(Long.parseLong(deductionModel.getSenderId()),
-                            Long.parseLong(deductionModel.getReceiverId()),
-                            deductionModel.getRequestId(),
-                            deductionModel.getAmount());
-            long total = System.currentTimeMillis()  - start;
+            TransferResponseModel response = transferService.transferFunds(Long.parseLong(deductionModel.getSenderId()),
+                    Long.parseLong(deductionModel.getReceiverId()),
+                    deductionModel.getRequestId(),
+                    deductionModel.getAmount());
+
+            long total = System.currentTimeMillis() - start;
             logger.info(response.toString() + ",elapsed:" + total);
-            
-            if (response.getStatusCode() == Enums.StatusCodes.Success) {
-                return ResponseEntity.ok(response);
-            }
-            return ResponseEntity
-                    .badRequest()
-                    .body(response);
-            
+
+            return ResponseEntity.ok(response);
+
         } catch (Exception e) {
             // TODO: LOG EXCEPTION
-            System.out.println(e);
+            logger.error(e);
             return new ResponseEntity(Constants.Defines.EXC,
                     HttpStatus.BAD_REQUEST
             );

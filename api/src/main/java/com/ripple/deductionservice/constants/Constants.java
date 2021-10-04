@@ -24,9 +24,14 @@ public class Constants {
         public final static String OK = "OK",
                 EXC = "ERROR",
                 DEDUCTION_QUEUE = "DEDUCTION_QUEUE",
-                DBURL = "databaseConfig.url",
-                DBUSER = "databaseConfig.user",
-                DBPASS = "databaseConfig.pass",
+                DbUrlKey = "${spring.datasource.url}",
+                DbUserKey = "${spring.datasource.username}",
+                DbPassKey = "${spring.datasource.password}",
+                DbDriverKey = "${spring.datasource.driver-class-name}",
+                DbTimeout = "${spring.datasource.idle-timeout}",
+                DbMaxpoolsize = "${spring.datasource.maximumPoolSize}",
+                DbMinIdle = "${spring.datasource.minimumIdle}",
+                PropertiesFileName = "application.properties",
                 StatusCode = "StatusCode",
                 RejectionCode = "RejectionCode";
 

@@ -47,18 +47,10 @@ public class ConstantsService {
             });
 
             if (Constants.Statics.TerminateAllThreads) {
-                System.out.println("Shutdown.");
+                logger.debug("Shutdown flag triggered.");
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
-
-    @Bean
-    public void loadPropertiesConfig() {
-//        Constants.Statics.DB_URL = props.getDbUrl();
-//        Constants.Statics.DB_USER = props.getDbUser();
-//        Constants.Statics.DB_PASS = props.getDbPassword();
-
     }
 }

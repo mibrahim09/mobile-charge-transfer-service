@@ -27,10 +27,17 @@ public class TransferResponseModel {
     double senderNewAmount;
     double receiverNewAmount;
     LocalDateTime transactionTimeStamp;
-    Enums.RejectionStatusCodes rejectionStatusCode;
-    Enums.StatusCodes statusCode;
+    int rejectionStatusCode;
+    int statusCode;
+    double fees, feesBefore, feesAfter;
+    Enums.RejectionStatusCodes rejectionStatus;
 
     public TransferResponseModel(Enums.RejectionStatusCodes rejectionStatusCodes) {
-        this.rejectionStatusCode = rejectionStatusCodes;
+        this.setRejection(rejectionStatusCodes);
+    }
+
+    public void setRejection(Enums.RejectionStatusCodes rejectionStatus) {
+        this.rejectionStatusCode = rejectionStatus.ordinal();
+        this.rejectionStatus = rejectionStatus;
     }
 }

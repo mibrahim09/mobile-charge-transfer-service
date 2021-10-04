@@ -12,16 +12,20 @@ import com.ripple.engine.threads.ThreadsManager;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  *
  * @author Ripple
  */
 @Configuration
+@PropertySource(value = {Constants.Defines.PropertiesFileName})
 public class AppConfig {
 
     @Bean
@@ -39,23 +43,35 @@ public class AppConfig {
         return new DatabaseManager();
     }
 
-    @Bean(name = "configurationDataSource")
-    @ConfigurationProperties("spring.configurationdatasource")
+    @Value(Constants.Defines.DbUrlKey)
+    public String DbUrl;
+    @Value(Constants.Defines.DbUserKey)
+    public String DbUsername;
+    @Value(Constants.Defines.DbPassKey)
+    public String DbPassword;
+    @Value(Constants.Defines.DbDriverKey)
+    public String DbDriver;
+    @Value(Constants.Defines.DbMaxpoolsize)
+    public String DbMaxPoolSize;
+    @Value(Constants.Defines.DbMinIdle)
+    public String DbMinIdle;
+    @Value(Constants.Defines.DbTimeout)
+    public String DbTimeOut;
+
+    @Bean
     public HikariDataSource configurationDataSource() {
-//        HikariDataSource test = DataSourceBuilder.create().type(HikariDataSource.class).build();
-        HikariDataSource test = new HikariDataSource();
-        test.setJdbcUrl(Constants.Statics.DB_URL);
-        test.setUsername(Constants.Statics.DB_USER);
-        test.setPassword(Constants.Statics.DB_PASS);
-        test.setDriverClassName("org.postgresql.Driver");
-        test.setConnectionTimeout(60000);
-        test.setMaximumPoolSize(40);
-        test.setMinimumIdle(30);
-        return test;
+        HikariDataSource hikariDatasource = new HikariDataSource();
+        hikariDatasource.setJdbcUrl(DbUrl);
+        hikariDatasource.setUsername(DbUsername);
+        hikariDatasource.setPassword(DbPassword);
+        hikariDatasource.setDriverClassName(DbDriver);
+        hikariDatasource.setConnectionTimeout(Integer.parseInt(DbTimeOut));
+        hikariDatasource.setMaximumPoolSize(Integer.parseInt(DbMaxPoolSize));
+        hikariDatasource.setMinimumIdle(Integer.parseInt(DbMinIdle));
+        return hikariDatasource;
     }
 
-    @Bean(name = "configurationJdbcTemplate")
-    @Autowired
+    @Bean
     public JdbcTemplate configurationJdbcTemplate(DataSource configurationDataSource) {
         return new JdbcTemplate(configurationDataSource);
     }

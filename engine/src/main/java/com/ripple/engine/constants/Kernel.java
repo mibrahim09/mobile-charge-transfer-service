@@ -29,10 +29,6 @@ public class Kernel {
     public static DeductionModel dequeue() {
         return deductionQueue.poll();
     }
-//
-//    public static ConstantsService getConstantsService() {
-//        return constantsService;
-//    }
 
     public static int getLeftInQueue() {
         return deductionQueue.size();

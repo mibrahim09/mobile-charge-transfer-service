@@ -5,7 +5,6 @@
  */
 package com.ripple.engine.models;
 
-import com.ripple.engine.enums.Enums;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,8 @@ public class TransferResponseModel {
     double senderNewAmount;
     double receiverNewAmount;
     LocalDateTime transactionTimeStamp;
-    Enums.RejectionStatusCodes rejectionStatusCode;
-    Enums.StatusCodes statusCode;
+    int rejectionStatusCode;
+    int statusCode;
+    double fees, feesBefore, feesAfter;
 
 }

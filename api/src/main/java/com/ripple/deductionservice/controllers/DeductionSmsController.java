@@ -41,7 +41,12 @@ public class DeductionSmsController {
         Map<String, Object> response = new HashMap<String, Object>();
 
         try {
-            if (Constants.Statics.ShutdownFlag) {
+            if (Constants.Statics.ShutdownFlag) { 
+                /* 
+                    Shutdown flag was not mentioned in the requirements regarding this service.
+                    So i assumed there is another shutdown flag that'll be set from the database too but not related to the one in the configuration.
+                    This is just a dummy test but always set to true for now till we figure where it needs to be set.
+                */
                 Enums.StatusCodes statusCode = Enums.StatusCodes.Rejected;
                 Enums.RejectionStatusCodes rejectionCode = Enums.RejectionStatusCodes.ServerDisabled;
 

@@ -16,20 +16,25 @@ public class Constants {
         public static boolean TerminateAllThreads = false;
         public static int RECEIVER_THREADPOOL_SIZE,
                 ReceiverThreadCooldown,
+                MonitoringThreadCooldown,
                 MAX_PER_BATCH;
-
-        public static String DB_URL = "jdbc:postgresql://localhost/mobile";
-        public static String DB_USER = "postgres";
-        public static String DB_PASS = "duke12345";
-
-        public static double Fees = 2.0;
+        
+        public static float FEES_PERCENT = 0.0f;
     }
 
     public static class Defines {
 
         public static final String OK = "OK",
                 EXC = "ERROR",
-                DEDUCTION_QUEUE = "DEDUCTION_QUEUE";
+                DEDUCTION_QUEUE = "DEDUCTION_QUEUE",
+                DbUrlKey = "${spring.datasource.url}",
+                DbUserKey = "${spring.datasource.username}",
+                DbPassKey = "${spring.datasource.password}",
+                DbDriverKey = "${spring.datasource.driver-class-name}",
+                DbTimeout = "${spring.datasource.idle-timeout}",
+                DbMaxpoolsize = "${spring.datasource.maximumPoolSize}",
+                DbMinIdle = "${spring.datasource.minimumIdle}",
+                PropertiesFileName = "application.properties";
 
     }
 }

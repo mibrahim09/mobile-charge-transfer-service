@@ -33,7 +33,6 @@ public class SelectionThread extends TimerThread {
         try {
             JdbcTemplate jdbcTemp = Kernel.dbManager.getConnection();
             long start = System.currentTimeMillis();
-            int enqueued = 1;
             
             jdbcTemp.query(SQL, new Object[]{LocalDateTime.now()}, (rs) -> {
                 DeductionModel model = new DeductionModel(rs.getString("sender_id"),
