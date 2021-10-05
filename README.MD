@@ -1,7 +1,7 @@
 # Mobile Charging service
 
 # Tools
-Java 8  
+Java 11  
 Springboot  
 POSTGRES database
 
